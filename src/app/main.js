@@ -1,12 +1,13 @@
-import React from 'react'
-import { getUser } from './services/auth'
+import React from 'react';
+import { getUser } from './services/auth';
 
 class Main extends React.Component {
-  state = { loading: false, json: null }
+  state = { loading: false, json: null };
+
   handleClick = e => {
-    e.preventDefault()
-    const user = getUser()
-    this.setState({ loading: true })
+    e.preventDefault();
+    const user = getUser();
+    this.setState({ loading: true });
     fetch('/.netlify/functions/auth-hello', {
       headers: {
         Accept: 'application/json',
@@ -15,12 +16,12 @@ class Main extends React.Component {
       },
     })
       .then(response => response.json())
-      .then(json => this.setState({ loading: false, json }))
-  }
+      .then(json => this.setState({ loading: false, json }));
+  };
 
   render() {
-    const { loading, json } = this.state
-    const user = getUser()
+    const { loading, json } = this.state;
+    const user = getUser();
     return (
       <>
         <h1>Your Main App</h1>
@@ -35,8 +36,8 @@ class Main extends React.Component {
         </button>
         <pre>{JSON.stringify(json, null, 2)}</pre>
       </>
-    )
+    );
   }
 }
 
-export default Main
+export default Main;

@@ -1,10 +1,5 @@
 import netlifyIdentity from 'netlify-identity-widget';
 
-// helpful for debugging netlify identity
-const logAuth = process.env.NODE_ENV === 'development' && false; // set to true to turn on logging
-const clog = (...args) => logAuth && console.log(...args);
-// helpful for debugging netlify identity
-
 export const isBrowser = () => typeof window !== 'undefined';
 export const initAuth = () => {
   if (isBrowser()) {
@@ -23,15 +18,14 @@ const setUser = user =>
   window.localStorage.setItem('netlifyUser', JSON.stringify(user));
 
 export const handleLogin = callback => {
-  clog('isLoggedIn check', isLoggedIn());
   if (isLoggedIn()) {
-    clog('logged in');
+    console.log('logged in');
     callback(getUser());
   } else {
-    clog('logging in...');
+    console.log('logging in...');
     netlifyIdentity.open();
     netlifyIdentity.on('login', user => {
-      clog('logged in!', { user });
+      console.log('logged in!', { user });
       setUser(user);
       callback(user);
     });
@@ -39,10 +33,12 @@ export const handleLogin = callback => {
 };
 
 export const isLoggedIn = () => {
-  if (!isBrowser()) return false;
+  if (!isBrowser()) {
+    return false;
+  }
   // const user = getUser()
   const user = netlifyIdentity.currentUser();
-  clog('isLoggedIn check', { user });
+  console.log('isLoggedIn check', { user });
   return !!user;
 };
 
